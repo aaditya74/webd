@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Joke Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+    }
+
+    .container {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 400px;
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+    }
+
+    #joke {
+      margin: 20px 0;
+      font-size: 18px;
+      color: #333;
+      min-height: 50px;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      border: none;
+      border-radius: 4px;
+      color: white;
+      cursor: pointer;
+      margin: 5px;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    .clear-btn {
+      background-color: #f44336;
+    }
+
+    .clear-btn:hover {
+      background-color: #da190b;
+    }
+
+    .word-count {
+      margin-top: 15px;
+      font-weight: bold;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Joke Generator</h2>
+
+    <div id="joke"></div>
+
+    <button id="getJoke">Get Joke</button>
+    <button id="clearJoke" class="clear-btn">Clear</button>
+
+    <div class="word-count">
+      <p>Word Count: <span id="wordCount">0</span></p>
+    </div>
+  </div>
+
+  <script>
+    
+    async function fetchJoke() {
+      const response = await fetch("https://v2.jokeapi.dev/joke/Any?type=single");
+      const data = await response.json();
+      if (data.joke) {
+        displayJoke(data.joke);
+      } else {
+        displayJoke("Sorry, no joke available.");
+      }
+    }
+
+    
+    function displayJoke(jokeText) {
+      document.getElementById("joke").textContent = jokeText;
+
+     
+      const wordCount = jokeText.split(" ").length;
+      document.getElementById("wordCount").textContent = wordCount;
+    }
+
+    
+    function clearJoke() {
+      document.getElementById("joke").textContent = "";
+      document.getElementById("wordCount").textContent = "0";
+    }
+
+   
+    document.getElementById("getJoke").addEventListener("click", fetchJoke);
+    document.getElementById("clearJoke").addEventListener("click", clearJoke);
+
+   
+    fetchJoke();
+  </script>
+
+</body>
+</html>
